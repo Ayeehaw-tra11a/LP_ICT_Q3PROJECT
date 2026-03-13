@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help | Ube Uber</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+  font-family: Arial, sans-serif;
+  background-color:#f4f4f4;
+  margin:0;
+}
+
+/* NAVBAR */
+ul{
+  list-style-type:none;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  background-color:#3F2A52;
+}
+
+li{
+  float:left;
+}
+
+li a{
+  display:block;
+  color:white;
+  text-align:center;
+  padding:14px 20px;
+  text-decoration:none;
+}
+
+li a:hover{
+  background-color:#5a3a74;
+}
+
+/* FARE CALCULATOR */
+.fare-box{
+  background:#3F2A52;
+  color:white;
+  padding:25px;
+  border-radius:10px;
+  max-width:500px;
+  margin:40px auto;
+}
+
+.fare-box select,
+.fare-box input,
+.fare-box button{
+  padding:6px 10px;
+  margin:6px 0;
+  border-radius:5px;
+  border:none;
+  width:100%;
+}
+
+.fare-box button{
+  background:white;
+  color:#3F2A52;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.fare-box button:hover{
+  opacity:0.85;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<ul>
+  <li><a href="#home">Home</a></li>
+  <li><a href="#calculator">Calculator</a></li>
+  <li><a href="#contact">Contact</a></li>
+  <li><a href="#about">About</a></li>
+</ul>
+
+<!-- PAGE CONTENT -->
+<h1 style="text-align:center;margin-top:30px;">LRT/MRT Fare Calculator</h1>
+
+<div class="fare-box" id="calculator">
+
+<label>Choose LRT/MRT Line:</label>
+<select id="line">
+  <option value="LRT1">LRT Line 1 (Roosevelt – Baclaran)</option>
+  <option value="LRT2">LRT Line 2 (Santolan – Recto)</option>
+  <option value="MRT3">MRT Line 3 (North Avenue – Taft Avenue)</option>
+</select>
+
+<label>Pickup Station Number:</label>
+<input type="number" id="pickup" min="1" placeholder="Enter station number">
+
+<label>Drop-off Station Number:</label>
+<input type="number" id="dropoff" min="1" placeholder="Enter station number">
+
+<label>Senior / PWD / Student</label>
+<input type="checkbox" id="discount">
+
+<button onclick="calculateFare()">Calculate Fare</button>
+
+<h3 id="result"></h3>
+
+</div>
+
+<script>
+
+function calculateFare(){
+
+const baseRate = 50;
+const line = document.getElementById("line").value;
+const pickup = parseInt(document.getElementById("pickup").value);
+const dropoff = parseInt(document.getElementById("dropoff").value);
+const discount = document.getElementById("discount").checked;
+
+if(isNaN(pickup) || isNaN(dropoff)){
+alert("Please enter valid station numbers!");
+return;
+}
+
+const distance = Math.abs(dropoff - pickup) + 1;
+let totalFare = baseRate * distance;
+
+if(discount){
+totalFare = totalFare * 0.8;
+}
+
+document.getElementById("result").innerHTML = `
+Line: ${line}<br>
+Distance: ${distance} stations<br>
+Total Fare: ₱${totalFare.toFixed(2)}
+`;
+
+}
+
+</script>
+
+</body>
+</html>
